@@ -56,8 +56,11 @@ Welcome to my Jenkins-GCP-SSL-Setup repository! Dive into this vibrant project w
 Secure your domain (jenkins-yannickkalukuta.com and www.jenkins-yannickkalukuta.com) with these steps:
 
 `sudo a2enmod proxy proxy_http ssl`
+
 `sudo systemctl restart apache2`
+
 `sudo nano /etc/apache2/sites-available/jenkins-yannickkalukuta.com-le-ssl.conf`
+
 * ✨ Update the File (check apache-config.conf for the full recipe):
 
 ** Ditch DocumentRoot /var/www/html.
@@ -75,9 +78,13 @@ Add ProxyPreserveHost On, ProxyPass / `http://localhost:8080/`, `ProxyPassRevers
 * 🌐 DNS Troubles? Try This:
 
 `sudo systemd-resolve --flush-caches`
+
 `sudo systemctl restart systemd-networkd`
+
 `nslookup www.jenkins-yannickkalukuta.com 8.8.8.8`
+
 `sudo certbot --apache -d jenkins-yannickkalukuta.com -d www.jenkins-yannickkalukuta.com --dns-resolver 8.8.8.8`
+
 ## ⚙️ Jenkins Configuration (jenkins-config.sh)
 
 * Tune up Jenkins with this quick config:
@@ -85,16 +92,21 @@ Add ProxyPreserveHost On, ProxyPass / `http://localhost:8080/`, `ProxyPassRevers
 `sudo nano /var/lib/jenkins/config.xml`
 * 📝 Add This:
 
-`<hudson>
-  <hudsonUrl>https://jenkins-yannickkalukuta.com/</hudsonUrl>
-</hudson>`
+`<hudson>`
+
+  `<hudsonUrl>https://jenkins-yannickkalukuta.com/</hudsonUrl>`
+  
+`</hudson>`
 * 🔄 Restart:
 
 `sudo systemctl restart jenkins`
+
 ## ⏰ Certificate Renewal Cron Job (renew-cron.sh)
+
 * Keep SSL fresh with an auto-renewal cron job:
 
 `sudo crontab -e`
+
 * 📅 Add This (runs daily at 3 AM):
 
 `0 3 * * * /usr/bin/certbot renew --quiet`
@@ -102,23 +114,38 @@ Add ProxyPreserveHost On, ProxyPass / `http://localhost:8080/`, `ProxyPassRevers
 ## 📜 Apache Configuration (apache-config.conf)
 
 * Check out the full SSL virtual host config in apache-config.conf:
-`<IfModule mod_ssl.c>
-    <VirtualHost *:443>
-        ServerAdmin webmaster@<HIDDEN_DOMAIN>
-        ServerName jenkins-yannickkalukuta.com
-        ServerAlias www.jenkins-yannickkalukuta.com
-        ProxyPreserveHost On
-        ProxyPass / http://localhost:8080/
-        ProxyPassReverse / http://localhost:8080/
-        ErrorLog ${APACHE_LOG_DIR}/error.log
-        CustomLog ${APACHE_LOG_DIR}/access.log combined
-        Include /etc/letsencrypt/options-ssl-apache.conf
-        SSLCertificateFile /etc/letsencrypt/live/jenkins-yannickkalukuta.com/fullchain.pem
-        SSLCertificateKeyFile /etc/letsencrypt/live/jenkins-yannickkalukuta.com/privkey.pem
-    </VirtualHost>
-</IfModule>`
+`<IfModule mod_ssl.c>`
+
+    `<VirtualHost *:443>`
+  
+        `ServerAdmin webmaster@<HIDDEN_DOMAIN>`
+  
+        `ServerName jenkins-yannickkalukuta.com`
+  
+       `ServerAlias www.jenkins-yannickkalukuta.com`
+  
+        `ProxyPreserveHost On`
+  
+        `ProxyPass / http://localhost:8080/`
+  
+       ` ProxyPassReverse / http://localhost:8080/`
+  
+        `ErrorLog ${APACHE_LOG_DIR}/error.log`
+  
+        `CustomLog ${APACHE_LOG_DIR}/access.log combined`
+  
+        `Include /etc/letsencrypt/options-ssl-apache.conf`
+  
+        `SSLCertificateFile /etc/letsencrypt/live/jenkins-yannickkalukuta.com/fullchain.pem`
+  
+        `SSLCertificateKeyFile /etc/letsencrypt/live/jenkins-yannickkalukuta.com/privkey.pem`
+  
+    `</VirtualHost>`
+  
+`</IfModule>`
+
 * Secure, proxy-ready, and Certbot-friendly!
 ### 🌟 Notes
-Environment: Rocking Ubuntu 24.04 (noble-amd64-v20250628) on GCP with free credits!
+#### Environment: Rocking **Ubuntu 24.04** (noble-amd64-v20250628) on GCP with free credits!
 Firewall: Unlocked TCP 8080 and 443 via GCP firewall rules.
 #### DNS: Verified jenkins-yannickkalukuta.com and www.jenkins-yannickkalukuta.com resolve like champs.
