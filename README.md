@@ -1,6 +1,6 @@
 # 🚀 Jenkins-GCP-SSL-Deployment: Your DevOps Showcase!
 
-Welcome to my Jenkins-GCP-SSL-Setup repository! Dive into this vibrant project where I’ve crafted a rock-solid Jenkins deployment on Google Cloud Platform (GCP) using Ubuntu 24.04. Expect a master-agent setup, SSL magic with Certbot, and automated certificate renewal—all powered by GCP credits. This setup flexes my DevOps, cloud infrastructure, and system admin muscles, making it a standout piece for my portfolio. Ready to roll? Let’s get started!
+Welcome to my Jenkins-GCP-SSL-Setup repository! Dive into this vibrant project where I’ve crafted a rock-solid Jenkins deployment on Google Cloud Platform (GCP) using Ubuntu 24.04. Expect a master-agent setup, SSL magic with Certbot, and automated certificate renewal all powered by GCP credits. This setup flexes my DevOps, cloud infrastructure, and system admin muscles, making it a standout piece for my portfolio. Ready to roll? Let’s get started!
 
 ## 🎉 Agent Setup (agent-setup.sh)
 
@@ -19,9 +19,10 @@ Welcome to my Jenkins-GCP-SSL-Setup repository! Dive into this vibrant project w
 `cat ~/.ssh/jenkins_agent_key.pub >> ~/.ssh/authorized_keys`
 `chmod 600 ~/.ssh/authorized_keys`
 
-*🎯 Pro Tip: Copy the public key (~/.ssh/jenkins_agent_key.pub) to the master VM’s ~/.ssh/authorized_keys for seamless SSH action!
+* 🎯 Pro Tip: Copy the public key (~/.ssh/jenkins_agent_key.pub) to the master VM’s ~/.ssh/authorized_keys for seamless SSH action!
 
-##🛠️ Master Setup (master-setup.sh)
+## 🛠️ Master Setup (master-setup.sh)
+
 Kick off the master VM with these powerhouse commands:
 
 `sudo apt-get update`
@@ -32,9 +33,9 @@ Kick off the master VM with these powerhouse commands:
 `sudo ufw allow 443`
 `sudo ufw status`
 
-*🔒 Firewall Boost: Head to GCP Console (VPC Network > Firewall), create a rule named allow-jenkins-ports, and allow TCP ports 8080 and 443 for your VMs.
+* 🔒 Firewall Boost: Head to GCP Console (VPC Network > Firewall), create a rule named allow-jenkins-ports, and allow TCP ports 8080 and 443 for your VMs.
 
-*🔐 SSL Configuration with Certbot (ssl-config.sh)
+* 🔐 SSL Configuration with Certbot (ssl-config.sh)
 Secure your domain (jenkins-yannickkalukuta.com and www.jenkins-yannickkalukuta.com) with these steps:
 
 `sudo a2enmod proxy proxy_http ssl`
