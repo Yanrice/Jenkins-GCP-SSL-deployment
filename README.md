@@ -7,16 +7,27 @@ Welcome to my Jenkins-GCP-SSL-Setup repository! Dive into this vibrant project w
 * Fire up your agent VM and run these commands to get it rolling:
 
 `cd /home/ubuntu`
+
 `mkdir -p ~/jenkins-agent`
+
 `chmod 700 ~/jenkins-agent`
+
 `sudo su - ubuntu`
+
 `sudo apt-get install -y openjdk-11-jre`
+
 `sudo mkdir /var/lib/jenkins`
+
 `sudo chown -R ubuntu:ubuntu /var/lib/jenkins`
+
 `sudo chmod 700 /var/lib/jenkins`
+
 `mkdir -p ~/.ssh`
+
 `ssh-keygen -t ed25519 -f ~/.ssh/jenkins_agent_key -N ""`
+
 `cat ~/.ssh/jenkins_agent_key.pub >> ~/.ssh/authorized_keys`
+
 `chmod 600 ~/.ssh/authorized_keys`
 
 ** 🎯 Pro Tip: Copy the public key (`~/.ssh/jenkins_agent_key.pub`) to the master VM’s `~/.ssh/authorized_keys` for seamless SSH action!
@@ -26,11 +37,17 @@ Welcome to my Jenkins-GCP-SSL-Setup repository! Dive into this vibrant project w
 * Kick off the master VM with these powerhouse commands:
 
 `sudo apt-get update`
+
 `sudo apt-get install -y openjdk-11-jre jenkins apache2`
+
 `sudo systemctl start jenkins`
+
 `sudo systemctl enable jenkins`
+
 `sudo ufw allow 8080`
+
 `sudo ufw allow 443`
+
 `sudo ufw status`
 
  🔒 Firewall Boost: Head to GCP Console (VPC Network > Firewall), create a rule named allow-jenkins-ports, and allow TCP ports `8080` and `443` for your VMs.
@@ -48,9 +65,13 @@ Add ProxyPreserveHost On, ProxyPass / `http://localhost:8080/`, `ProxyPassRevers
 🔧 Enable and Test:
 
 `sudo a2ensite jenkins-yannickkalukuta.com-le-ssl.conf`
+
 `sudo apache2ctl configtest`
+
 `sudo systemctl restart apache2`
+
 `sudo certbot --apache -d jenkins-yannickkalukuta.com -d www.jenkins-yannickkalukuta.com`
+
 * 🌐 DNS Troubles? Try This:
 
 `sudo systemd-resolve --flush-caches`
@@ -96,8 +117,8 @@ Add ProxyPreserveHost On, ProxyPass / `http://localhost:8080/`, `ProxyPassRevers
         SSLCertificateKeyFile /etc/letsencrypt/live/jenkins-yannickkalukuta.com/privkey.pem
     </VirtualHost>
 </IfModule>`
-Secure, proxy-ready, and Certbot-friendly!
+* Secure, proxy-ready, and Certbot-friendly!
 ### 🌟 Notes
 Environment: Rocking Ubuntu 24.04 (noble-amd64-v20250628) on GCP with free credits!
 Firewall: Unlocked TCP 8080 and 443 via GCP firewall rules.
-DNS: Verified jenkins-yannickkalukuta.com and www.jenkins-yannickkalukuta.com resolve like champs.
+#### DNS: Verified jenkins-yannickkalukuta.com and www.jenkins-yannickkalukuta.com resolve like champs.
