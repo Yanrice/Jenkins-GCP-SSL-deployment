@@ -63,9 +63,11 @@ Secure your domain (jenkins-yannickkalukuta.com and www.jenkins-yannickkalukuta.
 
 * ✨ Update the File (check apache-config.conf for the full recipe):
 
-** Ditch DocumentRoot /var/www/html.
-Add ProxyPreserveHost On, ProxyPass / `http://localhost:8080/`, `ProxyPassReverse` / `http://localhost:8080/`.
-🔧 Enable and Test:
+### Ditch DocumentRoot `/var/www/html`.
+
+#### Add ProxyPreserveHost On, ProxyPass / `http://localhost:8080/`, `ProxyPassReverse` / `http://localhost:8080/`.
+
+* 🔧 Enable and Test:
 
 `sudo a2ensite jenkins-yannickkalukuta.com-le-ssl.conf`
 
@@ -114,6 +116,7 @@ Add ProxyPreserveHost On, ProxyPass / `http://localhost:8080/`, `ProxyPassRevers
 ## 📜 Apache Configuration (apache-config.conf)
 
 * Check out the full SSL virtual host config in apache-config.conf:
+  
 `<IfModule mod_ssl.c>`
 
     `<VirtualHost *:443>`
@@ -146,6 +149,9 @@ Add ProxyPreserveHost On, ProxyPass / `http://localhost:8080/`, `ProxyPassRevers
 
 * Secure, proxy-ready, and Certbot-friendly!
 ### 🌟 Notes
+
 #### Environment: Rocking **Ubuntu 24.04** (noble-amd64-v20250628) on GCP with free credits!
-Firewall: Unlocked TCP 8080 and 443 via GCP firewall rules.
+
+*Firewall: Unlocked TCP `8080` and `443` via GCP firewall rules.
+
 #### DNS: Verified jenkins-yannickkalukuta.com and www.jenkins-yannickkalukuta.com resolve like champs.
