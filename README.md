@@ -6,8 +6,8 @@ Welcome to my Jenkins-GCP-SSL-Setup repository! Dive into this vibrant project w
 
 * Fire up your agent VM and run these commands to get it rolling:
 
-`cd /home/ubuntu`
-`mkdir -p ~/jenkins-agent`
+* `cd /home/ubuntu`
+* `mkdir -p ~/jenkins-agent`
 `chmod 700 ~/jenkins-agent`
 `sudo su - ubuntu`
 `sudo apt-get install -y openjdk-11-jre`
@@ -33,9 +33,9 @@ Welcome to my Jenkins-GCP-SSL-Setup repository! Dive into this vibrant project w
 `sudo ufw allow 443`
 `sudo ufw status`
 
-** 🔒 Firewall Boost: Head to GCP Console (VPC Network > Firewall), create a rule named allow-jenkins-ports, and allow TCP ports 8080 and 443 for your VMs.
+ 🔒 Firewall Boost: Head to GCP Console (VPC Network > Firewall), create a rule named allow-jenkins-ports, and allow TCP ports 8080 and 443 for your VMs.
 
-** 🔐 SSL Configuration with Certbot (ssl-config.sh)
+## 🔐 SSL Configuration with Certbot (ssl-config.sh)
 Secure your domain (jenkins-yannickkalukuta.com and www.jenkins-yannickkalukuta.com) with these steps:
 
 `sudo a2enmod proxy proxy_http ssl`
@@ -57,7 +57,8 @@ Add ProxyPreserveHost On, ProxyPass / `http://localhost:8080/`, `ProxyPassRevers
 `sudo systemctl restart systemd-networkd`
 `nslookup www.jenkins-yannickkalukuta.com 8.8.8.8`
 `sudo certbot --apache -d jenkins-yannickkalukuta.com -d www.jenkins-yannickkalukuta.com --dns-resolver 8.8.8.8`
-** ⚙️ Jenkins Configuration (jenkins-config.sh)
+## ⚙️ Jenkins Configuration (jenkins-config.sh)
+
 * Tune up Jenkins with this quick config:
 
 `sudo nano /var/lib/jenkins/config.xml`
@@ -77,9 +78,24 @@ Add ProxyPreserveHost On, ProxyPass / `http://localhost:8080/`, `ProxyPassRevers
 
 `0 3 * * * /usr/bin/certbot renew --quiet`
 
-** 📜 Apache Configuration (apache-config.conf)
-* Check out the full SSL virtual host config in apache-config.conf:
+## 📜 Apache Configuration (apache-config.conf)
 
+* Check out the full SSL virtual host config in apache-config.conf:
+`<IfModule mod_ssl.c>
+    <VirtualHost *:443>
+        ServerAdmin webmaster@<HIDDEN_DOMAIN>
+        ServerName jenkins-yannickkalukuta.com
+        ServerAlias www.jenkins-yannickkalukuta.com
+        ProxyPreserveHost On
+        ProxyPass / http://localhost:8080/
+        ProxyPassReverse / http://localhost:8080/
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+        Include /etc/letsencrypt/options-ssl-apache.conf
+        SSLCertificateFile /etc/letsencrypt/live/jenkins-yannickkalukuta.com/fullchain.pem
+        SSLCertificateKeyFile /etc/letsencrypt/live/jenkins-yannickkalukuta.com/privkey.pem
+    </VirtualHost>
+</IfModule>`
 Secure, proxy-ready, and Certbot-friendly!
 🌟 Notes
 Environment: Rocking Ubuntu 24.04 (noble-amd64-v20250628) on GCP with free credits!
