@@ -1,0 +1,63 @@
+#!/bin/bash
+
+#Configure SSL on Jenkins Server
+#Following are the steps involved in configuring SSL on the Jenkins server.
+
+#Obtain SSL certificates
+#Convert SSL keys to PKCS12 format
+#Convert PKCS12 to JKS format
+#Add JKS to Jenkins path
+#Configure Jenkins startup to use the JKS file.
+#Validate Jenkins SSL
+
+#Make sure you have the following certs with you before executing the command.
+#ca.crt
+#server.key
+#server.crt
+
+echo"#1. Generate the Root CA Key:"
+   openssl ecparam -name prime256v1 -genkey -noout -out ca.key
+echo "#2. Generate the Root CA Certificate:"
+   openssl req -new -x509 -sha256 -key ca.key -out ca.crt -days 365
+echo "#3. Generate the Server Key:"
+   openssl genrsa -out server.key 2048
+echo "#4. Generate the Server Certificate Signing Request (CSR):"
+   openssl req -new -key server.key -out server.csr
+echo "#5. Sign the Server CSR with the Root CA:"
+   openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 365 -sha256
+#Replace jenkins.devopscube.com in the command with your own alias name
+#Replace your-strong-password with a strong password.
+
+echo "#6. Convert SSL keys to PKCS12 format"
+openssl pkcs12 -export -out jenkins.p12 -passout 'pass:your-strong-password' -inkey server.key -in server.crt -certfile ca.crt -name jenkins.devopscube.com
+echo "#7 Convert PKCS12 to JKS format"
+keytool -importkeystore -srckeystore jenkins.p12 -srcstorepass 'your-secret-password' -srcstoretype PKCS12 -srcalias jenkins.devopscube.com -deststoretype JKS -destkeystore jenkins.jks -deststorepass 'your-secret-password' -destalias jenkins.devopscube.com
+echo "#8 Add JKS to Jenkins path"
+mkdir -p /etc/jenkins
+cp jenkins.jks /etc/jenkins/
+echo "#9 Change the permissions of the keys and folder."
+chown -R jenkins: /etc/jenkins
+chmod 700 /etc/jenkins
+chmod 600 /etc/jenkins/jenkins.jks
+echo "#10. Modify Jenkins Configuration for SSL"
+#All the key Jenkins startup configurations are present in /etc/default/jenkins file. 
+#All the SSL-based configurations go into this file.
+#Open the file
+sudo vi /etc/default/jenkins
+#Replace your-keystore-password with the Keystore password, 
+#you set in step 3. Also you can use either 443 or 8443 for ports.
+JENKINS_PORT="-1"
+JENKINS_HTTPS_PORT="8443"
+JENKINS_HTTPS_KEYSTORE="/etc/jenkins/jenkins.jks"
+JENKINS_HTTPS_KEYSTORE_PASSWORD="<your-keystore-password>"
+JENKINS_HTTPS_LISTEN_ADDRESS="0.0.0.0"
+
+#Save the configuration and restart Jenkins.
+sudo systemctl restart jenkins
+#Check Jenkins status.
+sudo systemctl status jenkins
+echo "#11. Validate SSL"
+#Now you should be able to access Jenkins over HTTPS with port 8443
+https://<jenkins-dns/ip>:8443
+#You can also use curl to verify SSL
+curl -k https://<jenkins-dns/ip>:8443
