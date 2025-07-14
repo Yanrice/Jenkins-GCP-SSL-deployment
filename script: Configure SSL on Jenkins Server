@@ -15,6 +15,7 @@
 #server.key
 #server.crt
 
+#1 to #5 will help create the 3 keys
 echo"#1. Generate the Root CA Key:"
    openssl ecparam -name prime256v1 -genkey -noout -out ca.key
 echo "#2. Generate the Root CA Certificate:"
