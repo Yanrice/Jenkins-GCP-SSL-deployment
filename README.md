@@ -14,7 +14,7 @@ Welcome to my Jenkins-GCP-SSL-Setup repository! Dive into this vibrant project w
 
 `sudo su - ubuntu`
 
-`sudo apt-get install -y openjdk-11-jre`
+`sudo apt install openjdk-21-jdk -y`
 
 `sudo mkdir /var/lib/jenkins`
 
@@ -39,6 +39,38 @@ Welcome to my Jenkins-GCP-SSL-Setup repository! Dive into this vibrant project w
 `sudo apt update -y && sudo apt upgrade -y`
 
 `sudo apt install openjdk-21-jdk -y`
+* Once installed, we can check the Java version with the command below:
+
+`java -version`
+
+* You should receive the following output:
+
+`root@host:~# java -version`
+`openjdk version "21.0.3" 2024-04-16`
+`OpenJDK Runtime Environment (build 21.0.3+9-Ubuntu-1ubuntu1)`
+`OpenJDK 64-Bit Server VM (build 21.0.3+9-Ubuntu-1ubuntu1, mixed mode, sharing)`
+
+* Next step is to add the Jenkins GPG key with the following command:
+
+`sudo wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key`
+
+* Then add the Jenkins repository because it is not added by default in the Ubuntu 24.04 sources list:
+
+`echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+/etc/apt/sources.list.d/jenkins.list > /dev/null`
+
+* Once, the key and the repo are added update the system again and move to the next step of the installation.
+
+`sudo apt update -y`
+
+* To install Jenkins execute the following command:
+`sudo apt install jenkins -y`
+
+* Once installed, start and enable the Jenkins service:
+
+`sudo systemctl start jenkins && sudo systemctl enable jenkins`
+
+* To check the status of the service:
 
 `sudo systemctl start jenkins`
 
