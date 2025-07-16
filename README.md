@@ -64,6 +64,7 @@ Welcome to my Jenkins-GCP-SSL-Setup repository! Dive into this vibrant project w
 `sudo apt update -y`
 
 * To install Jenkins execute the following command:
+  
 `sudo apt install jenkins -y`
 
 * Once installed, start and enable the Jenkins service:
@@ -71,6 +72,8 @@ Welcome to my Jenkins-GCP-SSL-Setup repository! Dive into this vibrant project w
 `sudo systemctl start jenkins && sudo systemctl enable jenkins`
 
 * To check the status of the service:
+
+`sudo systemctl status jenkins`  
 
 `sudo systemctl start jenkins`
 
