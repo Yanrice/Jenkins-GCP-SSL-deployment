@@ -36,7 +36,7 @@ Welcome to my Jenkins-GCP-SSL-Setup repository! Dive into this vibrant project w
 
 * Kick off the master VM with these powerhouse commands:
 
-`sudo apt-get update`
+`sudo apt update -y && sudo apt upgrade -y`
 
 `sudo apt install openjdk-21-jdk -y`
 
