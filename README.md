@@ -38,7 +38,7 @@ Welcome to my Jenkins-GCP-SSL-Setup repository! Dive into this vibrant project w
 
 `sudo apt-get update`
 
-`sudo apt-get install -y openjdk-11-jre jenkins apache2`
+`sudo apt install openjdk-21-jdk -y`
 
 `sudo systemctl start jenkins`
 
