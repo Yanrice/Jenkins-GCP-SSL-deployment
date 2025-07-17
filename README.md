@@ -25,6 +25,23 @@ Welcome to my Jenkins-GCP-SSL-Setup repository! Dive into this vibrant project w
 `sudo apt install openjdk-21-jdk -y`
 
 `sudo mkdir /var/lib/jenkins`
+ mkdir -p ~/jenkins-agent
+   14  chmod 700 ~/jenkins-agent
+   15  ls
+   16  sudo apt-get update
+   17  sudo apt-get install -y openjdk-11-jre
+   18  echo "Java version:"
+   19  java -version
+   20  echo "Agent directory permissions:"
+   21  ls -ld ~/jenkins-agent
+   22  mkdir /var/lib/jenkins
+   23  sudo mkdir /var/lib/jenkins
+   24  chmod 700 /var/lib/jenkins
+   25  sudo chmod 700 /var/lib/jenkins
+   26  ll
+   27  cd /var/lib
+   28  ll
+   29  sudo chown -R ubuntu:ubuntu /var/lib/jenkins
 
 `sudo chown -R ubuntu:ubuntu /var/lib/jenkins`
 
