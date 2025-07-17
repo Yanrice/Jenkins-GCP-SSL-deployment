@@ -45,11 +45,19 @@ nginx -t
 systemctl restart nginx
 
 # Step 4: Configure Jenkins for HTTP
+echo "Configuring Jenkins to use HTTP on port 8080"
 echo 'JENKINS_PORT="8080"' >> /etc/default/jenkins
 echo 'JENKINS_HTTPS_PORT="-1"' >> /etc/default/jenkins
+
+# Step 5: Update Jenkins URL
+echo "Setting Jenkins URL to https://jenkins-yannickkalukuta.com"
+JENKINS_CONFIG="/var/lib/jenkins/config.xml"
+sed -i 's|<url>.*</url>|<url>https://jenkins-yannickkalukuta.com</url>|' "$JENKINS_CONFIG"
+chown jenkins:jenkins "$JENKINS_CONFIG"
 systemctl restart jenkins
 
-# Step 5: Set up cron job for certificate renewal
+# Step 6: Set up cron job for certificate renewal
+echo "Setting up certificate renewal cron job"
 echo "0 6,23 * * * certbot renew --quiet --post-hook \"systemctl reload nginx\"" | crontab -
 
 echo "Setup complete! Jenkins is available at https://jenkins-yannickkalukuta.com"
