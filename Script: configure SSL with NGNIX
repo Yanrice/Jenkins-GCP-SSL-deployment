@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# Simple script to set up Jenkins with SSL using Nginx and Let's Encrypt
+# Usage: sudo bash setup_jenkins_ssl.sh
+# Target: Configures Jenkins at https://jenkins-yannickkalukuta.com
+
+# Exit on error
+set -e
+
+# Step 1: Install Nginx and Certbot
+apt update
+apt install -y nginx python3-certbot-nginx
+
+# Step 2: Obtain Let's Encrypt certificate
+certbot certonly --nginx -d jenkins-yannickkalukuta.com --non-interactive --agree-tos --email admin@jenkins-yannickkalukuta.com
+
+# Step 3: Configure Nginx as reverse proxy
+cat > /etc/nginx/sites-available/jenkins << EOF
+server {
+    listen 443 ssl;
+    server_name jenkins-yannickkalukuta.com;
+
+    ssl_certificate /etc/letsencrypt/live/jenkins-yannickkalukuta.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/jenkins-yannickkalukuta.com/privkey.pem;
+
+    location / {
+        proxy_pass http://localhost:8080;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+    }
+}
+
+server {
+    listen 80;
+    server_name jenkins-yannickkalukuta.com;
+    return 301 https://\$host\$request_uri;
+}
+EOF
+
+# Enable Nginx configuration
+ln -s /etc/nginx/sites-available/jenkins /etc/nginx/sites-enabled/
+nginx -t
+systemctl restart nginx
+
+# Step 4: Configure Jenkins for HTTP
+echo 'JENKINS_PORT="8080"' >> /etc/default/jenkins
+echo 'JENKINS_HTTPS_PORT="-1"' >> /etc/default/jenkins
+systemctl restart jenkins
+
+# Step 5: Set up cron job for certificate renewal
+echo "0 6,23 * * * certbot renew --quiet --post-hook \"systemctl reload nginx\"" | crontab -
+
+echo "Setup complete! Jenkins is available at https://jenkins-yannickkalukuta.com"
