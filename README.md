@@ -12,6 +12,14 @@ Welcome to my Jenkins-GCP-SSL-Setup repository! Dive into this vibrant project w
 
 `chmod 700 ~/jenkins-agent`
 
+ chmod 600 ~/.ssh/authorized_keys
+    6  ssh-keygen -t ed25519 -f ~/.ssh/jenkins_agent_key -N ""
+    7  cat ~/.ssh/jenkins_agent_key.pub >> ~/.ssh/authorized_keys
+    8  chmod 600 ~/.ssh/authorized_keys
+    9  chmod 700 ~/.ssh
+   10  echo "Private key contents (copy to jenkins-master):"
+   11  cat ~/.ssh/jenkins_agent_key
+
 `sudo su - ubuntu`
 
 `sudo apt install openjdk-21-jdk -y`
