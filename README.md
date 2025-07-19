@@ -1,6 +1,7 @@
 # 🚀 Jenkins-GCP-SSL-Deployment: Your DevOps Showcase!
 
 Welcome to my Jenkins-GCP-SSL-Setup repository! Dive into this vibrant project where I’ve crafted a rock-solid Jenkins deployment on **Google Cloud Platform (GCP)** using Ubuntu 24.04. Expect a master-agent setup, SSL magic with **Certbot**, and automated certificate renewal all powered by GCP **credits**. This setup flexes my DevOps, cloud infrastructure, and system admin muscles, making it a standout piece for my portfolio. Ready to roll? Let’s get started!
+* **Jenkins site URL**: https://www.jenkins-yannickkalukuta.com
 
 ## 🎉 Agent Setup (agent-setup.sh)
 
