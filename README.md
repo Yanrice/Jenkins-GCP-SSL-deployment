@@ -231,4 +231,4 @@ Secure your domain (jenkins-yannickkalukuta.com and www.jenkins-yannickkalukuta.
 
 *Firewall: Unlocked TCP `8080` and `443` via GCP firewall rules.
 
-#### DNS: Verified jenkins-yannickkalukuta.com and www.jenkins-yannickkalukuta.com resolve like champs.
+#### DNS: Verified jenkins-yannickkalukuta.com and https://www.jenkins-yannickkalukuta.com resolve like champs.
