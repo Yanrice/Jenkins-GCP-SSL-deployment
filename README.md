@@ -12,36 +12,52 @@ Welcome to my Jenkins-GCP-SSL-Setup repository! Dive into this vibrant project w
 
 `chmod 700 ~/jenkins-agent`
 
- chmod 600 ~/.ssh/authorized_keys
-    6  ssh-keygen -t ed25519 -f ~/.ssh/jenkins_agent_key -N ""
-    7  cat ~/.ssh/jenkins_agent_key.pub >> ~/.ssh/authorized_keys
-    8  chmod 600 ~/.ssh/authorized_keys
-    9  chmod 700 ~/.ssh
-   10  echo "Private key contents (copy to jenkins-master):"
-   11  cat ~/.ssh/jenkins_agent_key
+ `chmod 600 ~/.ssh/authorized_keys`
+ 
+ `ssh-keygen -t ed25519 -f ~/.ssh/jenkins_agent_key -N ""`
+ 
+ `cat ~/.ssh/jenkins_agent_key.pub >> ~/.ssh/authorized_keys`
+ 
+ `chmod 600 ~/.ssh/authorized_keys`
+ 
+ `chmod 700 ~/.ssh`
+ 
+ `echo "Private key contents (copy to jenkins-master):"`
+ 
+ `cat ~/.ssh/jenkins_agent_key`
 
 `sudo su - ubuntu`
 
 `sudo apt install openjdk-21-jdk -y`
 
 `sudo mkdir /var/lib/jenkins`
- mkdir -p ~/jenkins-agent
-   14  chmod 700 ~/jenkins-agent
-   15  ls
-   16  sudo apt-get update
-   17  sudo apt-get install -y openjdk-11-jre
-   18  echo "Java version:"
-   19  java -version
-   20  echo "Agent directory permissions:"
-   21  ls -ld ~/jenkins-agent
-   22  mkdir /var/lib/jenkins
-   23  sudo mkdir /var/lib/jenkins
-   24  chmod 700 /var/lib/jenkins
-   25  sudo chmod 700 /var/lib/jenkins
-   26  ll
-   27  cd /var/lib
-   28  ll
-   29  sudo chown -R ubuntu:ubuntu /var/lib/jenkins
+
+`mkdir -p ~/jenkins-agent`
+
+`chmod 700 ~/jenkins-agent`
+
+`ls`
+`sudo apt-get update`
+
+`echo "Java version:"`
+
+`java -version`
+
+`echo "Agent directory permissions:"`
+`ls -ld ~/jenkins-agent`
+
+`mkdir /var/lib/jenkins`
+
+`sudo mkdir /var/lib/jenkins`
+
+`chmod 700 /var/lib/jenkins`
+
+`sudo chmod 700 /var/lib/jenkins`
+
+`ll`
+`cd /var/lib`
+ `ll`
+ `sudo chown -R ubuntu:ubuntu /var/lib/jenkins`
 
 `sudo chown -R ubuntu:ubuntu /var/lib/jenkins`
 
